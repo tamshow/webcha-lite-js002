@@ -1,0 +1,37 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WebGLが使えるか調べる</title>
+    <script src="js/three.min.js"></script>
+
+</head>
+<script>
+    window.addEventListener('DOMContentLoaded', (function(){
+        var myCanvas = document.getElementById('my-canvas');
+        var ele = document.getElementById('ele');
+        //WebGLコンテキストを取得
+        var gl = myCanvas.getContext('webgl')||myCanvas.getContext('expreimental-webgl');
+        if(gl = null){
+            ele.innerHTML = 'WebGLは利用できませんよ'
+
+        }else{
+            ele.innerHTML = 'WebGLは利用できますよ'
+        }
+    }), false);
+
+
+
+
+
+</script>
+<body>
+
+
+
+<h2>WebGLが使えるか調べる</h2>
+<p id="ele"></p>
+<canvas id="my-canvas"></canvas>
+</body>
+</html>
+

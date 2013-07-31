@@ -1,0 +1,62 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>立方体を回転</title>
+    <script src="js/three.min.js"></script>
+
+</head>
+<script>
+    window.addEventListener('DOMContentLoaded', (function(){
+
+        var width = 300;
+        var height = 300;
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(40, width / height, 1, 2000);
+
+        camera.position.set(1000,1000,1000);
+
+        camera.lookAt(new THREE.Vector3(0,0,0));
+        scene.add( camera );
+
+        var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(50,10,0);
+        scene.add( directionalLight );
+
+        var material = new THREE.MeshLambertMaterial({color:0x2EBFFF, opacity:0.5});
+        geometry = new THREE.CubeGeometry(300,300,300,7,7,7);
+        var mesh = new THREE.Mesh(geometry, material);
+        scene.add( mesh );
+
+        var renderer = new THREE.CanvasRenderer({'antialias':true});
+        renderer.setSize(width, height);
+        document.getElementById('three').appendChild(renderer.domElement);
+
+        function rendering(){
+            //rotation
+            mesh.rotation.y += 0.1;
+
+            requestAnimationFrame(rendering);
+            renderer.render( scene, camera );
+        }
+        rendering();
+
+    }), false);
+
+
+</script>
+<body>
+
+<div id="three"></div>
+
+
+<h3>1,回転させる</h3>
+<ul>
+    <li>mesh.rotation.x</li>
+    <li>mesh.rotation.y</li>
+</ul>
+
+
+</body>
+</html>
+

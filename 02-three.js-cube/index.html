@@ -1,0 +1,175 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>立方体を作成</title>
+    <script src="js/three.min.js"></script>
+
+</head>
+<script>
+    window.addEventListener('DOMContentLoaded', (function(){
+        //[1]幅、高さを設定
+        var width = 300;
+        var height = 300;
+
+        //[2] シーンを作成
+        var scene = new THREE.Scene();
+
+        //[3] レンダラーを設定
+        var renderer = new THREE.CanvasRenderer({'antialias':true});
+        renderer.setSize(width, height);
+        document.getElementById('three').appendChild(renderer.domElement);
+
+        //[4] カメラを作成
+        var camera = new THREE.PerspectiveCamera(40, width / height, 1, 2000);
+        camera.position.x = 1000;
+        camera.position.y = 500;
+        camera.position.z = 5;
+        camera.lookAt(new THREE.Vector3(0,0,0));
+        scene.add( camera );
+
+        //[5]光源を作成
+        var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.x = 50;
+        directionalLight.position.y = 10;
+        directionalLight.position.z = 0;
+        scene.add( directionalLight );
+
+        //[6]メッシュの作成
+        //マテリアル
+        var material = new THREE.MeshLambertMaterial({color:0x2EBFFF, opacity:0.5});
+        //ジオメトリー
+        var geometry = new THREE.CubeGeometry(300,300,300,7,7,7);
+
+        var mesh = new THREE.Mesh(geometry, material);
+        scene.add( mesh );
+
+        //[7] レンダリング
+        function rendering(){
+            renderer.render( scene, camera );
+        }
+        rendering();
+
+    }), false);
+
+
+
+
+
+</script>
+<body>
+<div id="three"></div>
+<h2>three.jsで3D</h2>
+<ol>
+    <li><a href="#ank01">three.jsを読み込む</a></li>
+    <li><a href="#ank02">シーンを作成</a></li>
+    <li><a href="#ank03">レンダラーを作成</a></li>
+    <li><a href="#ank04">カメラを作成 => シーンに追加</a></li>
+    <li><a href="#ank05">光源を作成 => シーンに追加</a></li>
+    <li><a href="#ank06">メッシュ（ジオメトリー、マテリアル）を作成 => シーンに追加</a></li>
+    <li><a href="#ank07">レンダリング</a></li>
+</ol>
+
+<h3 id="ank01">1,three.jsを読み込む</h3>
+<a href="https://github.com/mrdoob/three.js">https://github.com/mrdoob/three.js</a>
+<ol>
+    <li>/build/three.min.js</li>
+</ol>
+
+
+
+<h3 id="ank02">2,シーンを作成</h3>
+<a href="http://threejsdoc.appspot.com/doc/index.html#Scene">http://threejsdoc.appspot.com/doc/index.html#Scene</a>
+<ol>
+    <li>var scene = new THREE.Scene();</li>
+</ol>
+
+<h3 id="ank03">3,レンダラーを作成</h3>
+<a href="http://threejsdoc.appspot.com/doc/index.html#CanvasRenderer<">http://threejsdoc.appspot.com/doc/index.html#CanvasRenderer</a>
+<ol>
+    <li>var renderer = new THREE.CanvasRenderer()</li>
+    <li>renderer.setSize()</li>
+    <li>document.body.appendChild(renderer.domElement)</li>
+</ol>
+
+
+<h3 id="ank04">4,カメラを作成</h3>
+<a href="http://threejsdoc.appspot.com/doc/index.html#Camera">http://threejsdoc.appspot.com/doc/index.html#Camera</a>
+<ol>
+    <li>var camera = new THREE.PerspectiveCamera(画角, 縦横比, カメラから手前までの距離, カメラから奥までの距離)</li>
+    <li>camera.position.set()//カメラの位置</li>
+    <li>camera.lookAt()//注視点</li>
+    <li>scene.add( camera )</li>
+</ol>
+<ul>
+    <li>THREE.PerspectiveCamera()</li>
+    <li>THREE.OrthographicCamera()</li>
+    <li>THREE.CombinedCamera()</li>
+</ul>
+
+<h3 id="ank05">5,光源を作成</h3>
+<a href="http://threejsdoc.appspot.com/doc/index.html#Light">http://threejsdoc.appspot.com/doc/index.html#Light</a>
+<ol>
+    <li>var directionalLight = new THREE.DirectionalLight();</li>
+    <li>directionalLight.position.set()</li>
+    <li>directionalLight.lookAt()</li>
+    <li>scene.add( directionalLight )</li>
+</ol>
+<ul>
+    <li>THREE.DirectionalLight(カラー, 光源の強さ[デフォルトは1]);</li>
+    <li>THREE.AmbientLight();</li>
+    <li>THREE.PointLightLight();</li>
+    <li>THREE.SpotLightLight();</li>
+</ul>
+
+
+
+<h3 id="ank06">6,メッシュを作成</h3>
+<a href="http://threejsdoc.appspot.com/doc/index.html#SkinnedMesh">http://threejsdoc.appspot.com/doc/index.html#SkinnedMesh</a>
+<ol>
+    <li>var material = new THREE.MeshLambertMaterial()</li>
+    <li>var geometry = new THREE.CubeGeometry(横のサイズ, 縦のサイズ, 高さ, 横のセグメント, 縦のセグメント, 高さのセグメント)</li>
+    <li>var mesh = new THREE.Mesh(geometry, material)</li>
+    <li>scene.add( mesh )</li>
+</ol>
+<h4>マテリアルを作成</h4>
+<a href="http://threejsdoc.appspot.com/doc/index.html#Material">http://threejsdoc.appspot.com/doc/index.html#Material</a>
+<ul>
+    <li>THREE.LineBasicMaterial()</li>
+    <li>THREE.MeshBasicMaterial()</li>
+    <li>THREE.MeshDepthMaterial()</li>
+    <li>THREE.MeshLambertMaterial()</li>
+    <li>THREE.MeshNormalMaterial()</li>
+    <li>THREE.MeshPhongMaterial()</li>
+    <li>THREE.ParticleBasicMaterial()</li>
+    <li>THREE.ParticleCanvasMaterial()</li>
+    <li>THREE.ParticleDOMMaterial()</li>
+    <li>THREE.ShaderMaterial()</li>
+</ul>
+<h4>ジオメトリーを作成</h4>
+<a href="http://threejsdoc.appspot.com/doc/index.html#Geometry">http://threejsdoc.appspot.com/doc/index.html#Geometry</a>
+<ul>
+    <li>THREE.CubeGeometry()</li>
+    <li>THREE.CylinderGeometry()</li>
+    <li>THREE.ExtrudeGeometry()</li>
+    <li>THREE.IcosahedronGeometry()</li>
+    <li>THREE.LatheGeometry()</li>
+    <li>THREE.OctahedronGeometry()</li>
+    <li>THREE.PlaneGeometry()</li>
+    <li>THREE.SphereGeometry()</li>
+    <li>THREE.TorusGeometry()</li>
+    <li>THREE.TorusKnotGeometry()</li>
+    <li>THREE.BinaryLoader()</li>
+    <li>THREE.UTF8Loader()</li>
+</ul>
+<h3 id="ank07">7,レンダリング</h3>
+<a href="http://threejsdoc.appspot.com/doc/index.html#CanvasRenderer">http://threejsdoc.appspot.com/doc/index.html#CanvasRenderer</a>
+<ol>
+    <li>renderer.render( scene, camera )</li>
+</ol>
+
+
+
+</body>
+</html>
+

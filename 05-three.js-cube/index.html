@@ -1,0 +1,159 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ColladaLoaderを使う</title>
+    <script src="js/three.min.js"></script>
+    <script src="js/Detector.js"></script>
+    <script src="js/ColladaLoader.js"></script>
+    <script src="js/dat.gui.min.js"></script>
+</head>
+<script>
+    window.addEventListener('DOMContentLoaded', (function(){
+
+
+        var width = 300;
+        var height = 300;
+        var scene = new THREE.Scene();
+
+        //detector
+        if(!Detector.webgl) Detector.addGetWebGLMessage();
+
+
+        //collada loader
+        loader = new THREE.ColladaLoader();
+        loader.options.convertUpAxis = true;
+        loader.load( 'js/nezi.dae', function colladaReady( collada ) {
+            var dae = collada.scene;
+            dae.rotation.x = 45;
+            dae.updateMatrix();
+            dae.position.set(0, 0, 0);
+            dae.scale.set(1, 1, 1);
+            scene.add(dae);
+        } );
+
+        var camera = new THREE.PerspectiveCamera(40, width / height, 1, 2000);
+        camera.position.set( 8, 5, 5 );
+        camera.lookAt(new THREE.Vector3(0,0,0));
+        scene.add(camera);
+
+        var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(50,10,0);
+        scene.add( directionalLight );
+
+        //controls
+        var gui = new dat.GUI();
+        gui.add(camera.position, 'x', 0.1, 10);
+        gui.add(camera.position, 'y', 0.1, 10);
+        gui.add(camera.position, 'z', 0.1, 10);
+
+        // detector renderer
+        if ( Detector.webgl) {
+            var renderer = new THREE.WebGLRenderer( {antialias:true} );
+        } else {
+            var renderer = new THREE.CanvasRenderer( {antialias:true});
+        }
+        renderer.setSize(width, height);
+        document.getElementById('three').appendChild(renderer.domElement);
+        function rendering(){
+
+            requestAnimationFrame(rendering);
+            renderer.render( scene, camera );
+        }
+        rendering();
+
+    }), false);
+
+
+</script>
+<body>
+<div id="three"></div>
+<h3>1,Detector.js,ColladaLoader.js,dat.gui.min.jsを読み込む</h3>
+<a href="https://github.com/mrdoob/three.js">https://github.com/mrdoob/three.js</a><br>
+<ol>
+    <li>/examples/js/loaders/ColladaLoader.js</li>
+    <li>/examples/js/Detector.js</li>
+    <li>/examples/js/libs/dat.gui.min.js</li>
+</ol>
+
+<h3>2,Detector.js</h3>
+<p>WebGLが使えるか判定</p>
+<ol>
+    <li>if(!Detector.webgl) Detector.addGetWebGLMessage();</li>
+    <li>
+<pre>
+<code>
+if ( Detector.webgl) {
+  renderer = new THREE.WebGLRenderer( {antialias:true} );
+ } else {
+  renderer = new THREE.CanvasRenderer( {antialias:true});
+}
+</code>
+</pre>
+
+    </li>
+</ol>
+
+
+
+<h3>2,ColladaLoader.js</h3>
+<p>COLLADA形式を読み込む</p>
+<a href="http://threejsdoc.appspot.com/doc/index.html#TrackballControls">http://threejsdoc.appspot.com/doc/index.html#TrackballControls</a>
+<ol>
+    <li>js/ColladaLoader.js</li>
+    <li>
+<pre>
+<code>
+loader = new THREE.ColladaLoader();
+loader.options.convertUpAxis = true;
+loader.load( 'js/nezi.dae', function colladaReady( collada ) {
+ var dae = collada.scene;
+ scene.add(dae);
+} );
+</code>
+</pre>
+</li>
+</ol>
+
+<p>JSON形式を読み込む</p>
+<a href="http://threejsdoc.appspot.com/doc/index.html#JSONLoader">http://threejsdoc.appspot.com/doc/index.html#JSONLoader</a>
+<ol>
+    <li>
+<pre>
+<code>
+var loader = new THREE.JSONLoader();
+loader.load( 'js/nezi.js', function( geometry ) {
+ var mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial());
+ scene.add( mesh );
+} );
+
+</code>
+</pre>
+
+    </li>
+</ol>
+
+<h3>3,dat.gui</h3>
+<p>コントローラーを付ける</p>
+<ol>
+    <li>var gui = new dat.GUI();</li>
+    <li>
+<pre>
+<code>
+    gui.add(camera.position, 'x', 0.1, 10);
+    gui.add(camera.position, 'y', 0.1, 10);
+    gui.add(camera.position, 'z', 0.1, 10);
+</code>
+</pre>
+
+    </li>
+</ol>
+
+
+
+
+
+
+</body>
+</html>
+
