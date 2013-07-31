@@ -6,12 +6,12 @@
 
 ####three.jsとは？
 オープンソースの3Dライブラリ
-http://threejs.org/
-https://github.com/mrdoob/three.js/
-http://threejsdoc.appspot.com/doc/index.html
+- http://threejs.org/
+- https://github.com/mrdoob/three.js/
+- http://threejsdoc.appspot.com/doc/index.html
 
 
-####three.js流れ
+####手順
 1. three.jsを読み込む
 1. シーンを作成
 1. レンダラーを作成
